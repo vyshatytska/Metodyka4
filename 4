@@ -1,0 +1,83 @@
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+
+template<typename T>
+void Initialize(T arr[], int size);
+
+template<typename T>
+void Show(const T arr[], int size);
+
+template<typename T>
+void QuickSort(T arr[], int first, int last);
+
+int main()
+{
+    srand(static_cast<unsigned>(time(nullptr)));
+
+    const int SIZE1 = 10, SIZE2 = 20;
+    int arr1[SIZE1];
+    long arr2[SIZE2];
+
+    Initialize(arr1, SIZE1);
+    Initialize(arr2, SIZE2);
+
+    std::cout << "arr1 before sorting: ";
+    Show(arr1, SIZE1);
+    std::cout << "arr2 before sorting: ";
+    Show(arr2, SIZE2);
+
+    QuickSort(arr1, 0, SIZE1 - 1);
+    QuickSort(arr2, 0, SIZE2 - 1);
+
+    std::cout << "arr1 after sorting: ";
+    Show(arr1, SIZE1);
+    std::cout << "arr2 after sorting: ";
+    Show(arr2, SIZE2);
+
+    return 0;
+}
+
+template<typename T>
+void Initialize(T arr[], int size)
+{
+    for (int i = 0; i < size; i++)
+        arr[i] = rand() % 100;
+}
+
+template<typename T>
+void Show(const T arr[], int size)
+{
+    for (int i = 0; i < size; i++)
+        std::cout << arr[i] << " ";
+    std::cout << std::endl;
+}
+
+template<typename T>
+void QuickSort(T arr[], int first, int last)
+{
+    T middle = arr[(first + last) / 2];
+    int i = first;
+    int j = last;
+
+    do
+    {
+        while (arr[i] < middle)
+            i++;
+        while (arr[j] > middle)
+            j--;
+
+        if (i <= j)
+        {
+            std::swap(arr[i], arr[j]);
+            i++;
+            j--;
+        }
+
+    } while (i <= j);
+
+    if (i < last)
+        QuickSort(arr, i, last);
+    if (j > first)
+        QuickSort(arr, first, j);
+}
